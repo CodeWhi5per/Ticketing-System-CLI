@@ -54,6 +54,7 @@ public class DatabaseUtil {
                 // Set these values to the SystemConfig instance
 
                 systemConfig.setConfigurations(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
+                System.out.println();
                 System.out.println("Configuration loaded from database successfully!");
             } else {
                 System.out.println("No configurations found in the database.");

@@ -27,6 +27,7 @@ public class Main {
         while (true) {
 
             System.out.println("Choose an option to START the System:");
+            System.out.println();
             System.out.println("01. Enter The System Configurations");
             System.out.println("02. Start The Simulation");
             System.out.println("03. Exit");
@@ -122,6 +123,7 @@ public class Main {
 
                 case 3:
                     // Exit the program
+                    System.out.println();
                     System.out.println("System Stopped.");
                     scanner.close();
                     return;

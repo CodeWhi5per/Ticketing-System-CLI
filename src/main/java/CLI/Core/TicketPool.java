@@ -34,7 +34,6 @@ public class TicketPool {
             }
 
             tickets.add(ticket);
-            Thread.sleep(1000);
             logger.info("{}", ticket);
             ticketCount++;
 

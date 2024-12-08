@@ -1,11 +1,16 @@
 package CLI.SystemConfig;
 
 
+import CLI.Core.TicketPool;
 import CLI.Util.DatabaseUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Scanner;
 
 public class SystemConfig {
+
+    private static final Logger logger = LogManager.getLogger(TicketPool.class);
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -16,10 +21,13 @@ public class SystemConfig {
 
     public void systemConfiguration() {
 
+        System.out.println();
         totalTickets = validatePositiveInt("Enter Total Tickets: ");
         ticketReleaseRate = validatePositiveInt("Enter Ticket Release Rate (Seconds): ");
         customerRetrievalRate = validatePositiveInt("Enter Customer Retrieval Rate (Seconds): ");
         maxTicketCapacity = validatePositiveInt("Enter Max Ticket Capacity: ");
+        System.out.println();
+        logConfigData(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
     }
 
     private int validatePositiveInt(String prompt) {
@@ -54,6 +62,17 @@ public class SystemConfig {
         this.ticketReleaseRate = ticketReleaseRate;
         this.customerRetrievalRate = customerRetrievalRate;
         this.maxTicketCapacity = maxTicketCapacity;
+
+        System.out.println();
+        logConfigData(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
+    }
+
+    public void logConfigData(int totalTickets, int ticketReleaseRate, int customerRetrievalRate, int maxTicketCapacity){
+
+        logger.info("Total Tickets: {}", totalTickets);
+        logger.info("Ticket Release Rate: {}", ticketReleaseRate);
+        logger.info("Customer Retrieval Rate: {}", customerRetrievalRate);
+        logger.info("Max Ticket Capacity: {}", maxTicketCapacity);
     }
 
     public int getTotalTickets() {
