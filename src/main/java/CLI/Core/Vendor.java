@@ -22,8 +22,8 @@ public class Vendor implements Runnable {
         try {
             while (true) {
                 if (ticketPool.isFull()) {
-//                    System.out.println("Vendor " + vendorId + " is waiting. Ticket pool is full.");
-                    logger.info("Vendor {} is waiting. Ticket pool is full.", vendorId);
+
+                    logger.info("Vendor {}: is waiting. Ticket pool is full.", vendorId);
                     Thread.sleep(3000);
                     continue;
                 }
@@ -31,7 +31,7 @@ public class Vendor implements Runnable {
                 Thread.sleep(releaseInterval * 1000);
 
                 if (ticketPool.isLimitReached()){
-//                    System.out.println("Vendor " + vendorId + ": Ticket Releasing stopped. Limit is reached.");
+
                     logger.info("Vendor {}: Ticket Releasing stopped. Limit is reached.", vendorId);
                     break;
                 }

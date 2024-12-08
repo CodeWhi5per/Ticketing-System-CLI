@@ -3,7 +3,8 @@ package CLI.Core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -13,7 +14,7 @@ public class TicketPool {
 
     private static final Logger logger = LogManager.getLogger(TicketPool.class);
 
-    private final List<String> tickets = new LinkedList<>();
+    private final List<String> tickets = Collections.synchronizedList(new ArrayList<>());
     private final Lock lock = new ReentrantLock();
     private final int maxTicketCapacity;
     private final int totalTickets;
@@ -28,7 +29,12 @@ public class TicketPool {
         lock.lock();
         try {
 
+            if (ticketCount >= totalTickets) {
+                return;
+            }
+
             tickets.add(ticket);
+            Thread.sleep(1000);
             logger.info("{}", ticket);
             ticketCount++;
 
@@ -50,14 +56,30 @@ public class TicketPool {
     }
 
     public boolean isFull() {
-        return tickets.size() >= maxTicketCapacity;
+        lock.lock();
+        try {
+            return tickets.size() >= maxTicketCapacity;
+        } finally {
+            lock.unlock();
+        }
     }
 
     public boolean isEmpty() {
-        return tickets.isEmpty();
+        lock.lock();
+        try {
+            return tickets.isEmpty();
+        } finally {
+            lock.unlock();
+        }
     }
-    public boolean isLimitReached(){
-        return ticketCount==totalTickets;
+
+    public boolean isLimitReached() {
+        lock.lock();
+        try {
+            return ticketCount >= totalTickets;
+        } finally {
+            lock.unlock();
+        }
     }
 }
 

@@ -23,8 +23,7 @@ public class Customer implements Runnable {
         try {
             while (true) {
                 if (ticketPool.isEmpty()) {
-//                    System.out.println("Customer " + customerId + " is waiting. No tickets available.");
-                    logger.info("Customer {} is waiting. No tickets available.", customerId);
+                    logger.info("Customer {}: is waiting. No tickets available.", customerId);
                     Thread.sleep(3000);
                     continue;
                 }
@@ -32,7 +31,6 @@ public class Customer implements Runnable {
                 Thread.sleep(retrievalInterval * 1000);
 
                 if (ticketPool.isLimitReached() && ticketPool.isEmpty()){
-//                    System.out.println("Customer " + customerId + ": Purchasing Stopped. All Tickets Sold out.");
                     logger.info("Customer {}: Purchasing Stopped. All Tickets are Sold out.", customerId);
                     break;
                 }

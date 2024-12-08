@@ -8,6 +8,8 @@ import CLI.Core.Customer;
 import CLI.SystemConfig.SystemConfig;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -18,15 +20,18 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         SystemConfig systemConfig = new SystemConfig();
 
+        System.out.println();
+        System.out.println("Real-Time Event Ticketing System");
+        System.out.println();
+
         while (true) {
-            System.out.println("Real-Time Event Ticketing System");
-            System.out.println();
+
             System.out.println("Choose an option to START the System:");
             System.out.println("01. Enter The System Configurations");
             System.out.println("02. Start The Simulation");
             System.out.println("03. Exit");
 
-            int choice = 0;
+            int choice;
 
             // Validate menu input
             while (true) {
@@ -45,6 +50,7 @@ public class Main {
                 }
             }
 
+            // Handle the user's choice
             switch (choice) {
                 case 1:
                     // Configure the system and save settings to the database
@@ -59,8 +65,8 @@ public class Main {
                     systemConfig.loadConfigurationsFromDB();
                     System.out.println();
 
-                    int vendorCount = 0;
-                    int customerCount = 0;
+                    int vendorCount ;
+                    int customerCount ;
 
                     // Validate vendor count input
                     while (true) {
@@ -95,33 +101,57 @@ public class Main {
                     }
                     scanner.nextLine(); // Consume newline
 
-                    TicketPool ticketPool = new TicketPool(systemConfig.getTotalTickets(), systemConfig.getMaxTicketCapacity());
+                    List<Thread> threads = getThreads(systemConfig, vendorCount, customerCount);
 
-                    // Create and start vendor threads
-                    for (int i = 0; i < vendorCount; i++) {
-                        Vendor vendor = new Vendor(i + 1, ticketPool, systemConfig.getTicketReleaseRate());
-                        Thread vendorThread = new Thread(vendor);
-                        vendorThread.start();
+                    System.out.println("Simulation started successfully.");
+                    System.out.println();
+
+                    // Wait for all threads to complete
+                    for (Thread thread : threads) {
+                        try {
+                            thread.join();
+                        } catch (InterruptedException e) {
+                            System.out.println("A thread was interrupted: " + e.getMessage());
+                        }
                     }
 
-                    // Create and start customer threads
-                    for (int i = 0; i < customerCount; i++) {
-                        Customer customer = new Customer(i + 1, ticketPool, systemConfig.getCustomerRetrievalRate());
-                        Thread customerThread = new Thread(customer);
-                        customerThread.start();
-                    }
+                    System.out.println();
+                    System.out.println("Simulation completed. All tickets are processed.");
+                    System.out.println();
                     break;
 
                 case 3:
                     // Exit the program
                     System.out.println("System Stopped.");
                     scanner.close();
-                    return; // Use return to exit the method
+                    return;
 
                 default:
                     System.out.println("Unexpected error occurred."); // This shouldn't happen due to validation
             }
         }
+    }
+
+    private static List<Thread> getThreads(SystemConfig systemConfig, int vendorCount, int customerCount) {
+        TicketPool ticketPool = new TicketPool(systemConfig.getTotalTickets(), systemConfig.getMaxTicketCapacity());
+
+        // Create and start vendor threads
+        List<Thread> threads = new ArrayList<>();
+        for (int i = 0; i < vendorCount; i++) {
+            Vendor vendor = new Vendor(i + 1, ticketPool, systemConfig.getTicketReleaseRate());
+            Thread vendorThread = new Thread(vendor);
+            threads.add(vendorThread);
+            vendorThread.start();
+        }
+
+        // Create and start customer threads
+        for (int i = 0; i < customerCount; i++) {
+            Customer customer = new Customer(i + 1, ticketPool, systemConfig.getCustomerRetrievalRate());
+            Thread customerThread = new Thread(customer);
+            threads.add(customerThread);
+            customerThread.start();
+        }
+        return threads;
     }
 }
 

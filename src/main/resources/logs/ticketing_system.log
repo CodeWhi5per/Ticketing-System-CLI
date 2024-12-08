@@ -1,0 +1,32 @@
+[2024-12-08 17:42:53] [INFO ] Vendor 3: Added a Ticket.
+[2024-12-08 17:42:54] [INFO ] Vendor 1: Added a Ticket.
+[2024-12-08 17:42:55] [INFO ] Vendor 2: Added a Ticket.
+[2024-12-08 17:42:55] [INFO ] Vendor 1: is waiting. Ticket pool is full.
+[2024-12-08 17:42:55] [INFO ] Customer 1: Purchased a Ticket.
+[2024-12-08 17:42:55] [INFO ] Vendor 3: is waiting. Ticket pool is full.
+[2024-12-08 17:42:57] [INFO ] Vendor 2: Added a Ticket.
+[2024-12-08 17:42:57] [INFO ] Customer 1: Purchased a Ticket.
+[2024-12-08 17:42:59] [INFO ] Vendor 1: Added a Ticket.
+[2024-12-08 17:42:59] [INFO ] Vendor 3: is waiting. Ticket pool is full.
+[2024-12-08 17:42:59] [INFO ] Vendor 2: is waiting. Ticket pool is full.
+[2024-12-08 17:42:59] [INFO ] Customer 1: Purchased a Ticket.
+[2024-12-08 17:43:01] [INFO ] Vendor 1: Added a Ticket.
+[2024-12-08 17:43:01] [INFO ] Customer 1: Purchased a Ticket.
+[2024-12-08 17:43:03] [INFO ] Vendor 3: Added a Ticket.
+[2024-12-08 17:43:03] [INFO ] Vendor 1: is waiting. Ticket pool is full.
+[2024-12-08 17:43:03] [INFO ] Vendor 2: is waiting. Ticket pool is full.
+[2024-12-08 17:43:03] [INFO ] Customer 1: Purchased a Ticket.
+[2024-12-08 17:43:05] [INFO ] Vendor 3: Added a Ticket.
+[2024-12-08 17:43:05] [INFO ] Customer 1: Purchased a Ticket.
+[2024-12-08 17:43:07] [INFO ] Vendor 1: Added a Ticket.
+[2024-12-08 17:43:07] [INFO ] Vendor 3: is waiting. Ticket pool is full.
+[2024-12-08 17:43:07] [INFO ] Vendor 2: is waiting. Ticket pool is full.
+[2024-12-08 17:43:07] [INFO ] Customer 1: Purchased a Ticket.
+[2024-12-08 17:43:09] [INFO ] Vendor 1: Added a Ticket.
+[2024-12-08 17:43:09] [INFO ] Customer 1: Purchased a Ticket.
+[2024-12-08 17:43:10] [INFO ] Vendor 1: Ticket Releasing stopped. Limit is reached.
+[2024-12-08 17:43:11] [INFO ] Vendor 2: Ticket Releasing stopped. Limit is reached.
+[2024-12-08 17:43:11] [INFO ] Vendor 3: Ticket Releasing stopped. Limit is reached.
+[2024-12-08 17:43:11] [INFO ] Customer 1: Purchased a Ticket.
+[2024-12-08 17:43:13] [INFO ] Customer 1: Purchased a Ticket.
+[2024-12-08 17:43:15] [INFO ] Customer 1: Purchasing Stopped. All Tickets are Sold out.
