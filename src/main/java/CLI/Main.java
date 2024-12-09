@@ -17,9 +17,12 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // Scanner object to read user inputs.
         Scanner scanner = new Scanner(System.in);
-        SystemConfig systemConfig = new SystemConfig();
+        SystemConfig systemConfig = new SystemConfig();   // Instance of SystemConfig to manage system settings.
         boolean systemRunning = false;
+
+        // Display system header.
 
         System.out.println();
         System.out.println("     ┌──────────────────────────────────────┐");
@@ -27,7 +30,10 @@ public class Main {
         System.out.println("     └──────────────────────────────────────┘");
         System.out.println();
 
+        // Main loop to manage the user input for system commands.
         while (true) {
+
+            // Ask user for command: START or STOP
             System.out.println("Enter command: START or STOP.");
             System.out.print("> ");
             String command = scanner.nextLine().trim().toUpperCase();
@@ -40,6 +46,7 @@ public class Main {
                     System.out.println("⚙\uFE0F System Started Successfully......");
                     System.out.println();
 
+                    // Menu for system operations once started.
                     while (systemRunning) {
                         System.out.println("Choose an option to operate the system:");
                         System.out.println();
@@ -67,10 +74,10 @@ public class Main {
                             }
                         }
 
-                        // Handle the user's choice
+                        // Handle the user's choice based on their input.
                         switch (choice) {
                             case 1:
-                                // Configure the system and save settings to the database
+                                // Configure the system and save settings to the database.
                                 systemConfig.systemConfiguration();
                                 System.out.println();
                                 systemConfig.saveConfigurationsToDB();
@@ -78,14 +85,14 @@ public class Main {
                                 break;
 
                             case 2:
-                                // Start the simulation
+                                // Start the simulation.
                                 systemConfig.loadConfigurationsFromDB();
                                 System.out.println();
 
                                 int vendorCount;
                                 int customerCount;
 
-                                // Validate vendor count input
+                                // Validate vendor count input.
                                 while (true) {
                                     System.out.print("Enter Vendor Count: ");
                                     if (scanner.hasNextInt()) {
@@ -97,11 +104,11 @@ public class Main {
                                         }
                                     } else {
                                         System.out.println("❌ Invalid input! Please enter a valid number.");
-                                        scanner.nextLine(); // Consume invalid input
+                                        scanner.nextLine(); // Consume invalid input.
                                     }
                                 }
 
-                                // Validate customer count input
+                                // Validate customer count input.
                                 while (true) {
                                     System.out.print("Enter Customer Count: ");
                                     if (scanner.hasNextInt()) {
@@ -113,21 +120,22 @@ public class Main {
                                         }
                                     } else {
                                         System.out.println("❌ Invalid input! Please enter a valid number.");
-                                        scanner.nextLine(); // Consume invalid input
+                                        scanner.nextLine(); // Consume invalid input.
                                     }
                                 }
-                                scanner.nextLine(); // Consume newline
+                                scanner.nextLine(); // Consume newline.
 
                                 System.out.println();
                                 System.out.println("⚙\uFE0F Simulation started successfully.");
                                 System.out.println();
 
+                                // Create threads for vendors and customers.
                                 List<Thread> threads = getThreads(systemConfig, vendorCount, customerCount);
 
                                 // Wait for all threads to complete
                                 for (Thread thread : threads) {
                                     try {
-                                        thread.join();
+                                        thread.join();  // Waits for each thread to finish.
                                     } catch (InterruptedException e) {
                                         System.out.println("⚠\uFE0F A thread was interrupted: " + e.getMessage());
                                     }
@@ -139,7 +147,7 @@ public class Main {
                                 break;
 
                             case 3:
-                                // Stop the system
+                                // Stop the system and exit the loop.
                                 System.out.println();
                                 System.out.println("⚙\uFE0F System stopped successfully......");
                                 System.out.println();
@@ -153,6 +161,8 @@ public class Main {
                     break;
 
                 case "STOP":
+
+                    // Exits the program if the command is STOP.
                     System.out.println();
                     System.out.println("\uD83D\uDED1 Exiting the program. Goodbye!");
                     scanner.close();
@@ -164,13 +174,14 @@ public class Main {
         }
     }
 
+    // Creates and starts vendor and customer threads.
     private static List<Thread> getThreads(SystemConfig systemConfig, int vendorCount, int customerCount) {
         TicketPool ticketPool = new TicketPool(systemConfig.getTotalTickets(), systemConfig.getMaxTicketCapacity());
 
-        // Create and start vendor threads
+
         List<Thread> threads = new ArrayList<>();
 
-
+        // Create and start vendor threads.
         for (int i = 0; i < vendorCount; i++) {
             Vendor vendor = new Vendor(i + 1, ticketPool, systemConfig.getTicketReleaseRate());
             Thread vendorThread = new Thread(vendor);
@@ -178,7 +189,7 @@ public class Main {
             vendorThread.start();
         }
 
-        // Create and start customer threads
+        // Create and start customer .
         for (int i = 0; i < customerCount; i++) {
             Customer customer = new Customer(i + 1, ticketPool, systemConfig.getCustomerRetrievalRate());
             Thread customerThread = new Thread(customer);
