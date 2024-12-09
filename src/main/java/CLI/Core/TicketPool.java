@@ -51,9 +51,10 @@ public class TicketPool {
         lock.lock();  // Lock to ensure thread safety when adding tickets.
         try {
 
-            tickets.remove(0);  // remove ticket from the pool.
-            logger.info("{}", ticket); // Log ticket purchasing.
-
+            if (!tickets.isEmpty()) { // check the ticket pool is not empty.
+                tickets.remove(0);  // remove ticket from the pool.
+                logger.info("{}", ticket); // Log ticket purchasing.
+            }
         } finally {
             lock.unlock();  // Release the lock.
         }

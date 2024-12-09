@@ -2,6 +2,7 @@ package CLI;
 
 
 import CLI.Core.TicketPool;
+import CLI.Core.VIPCustomer;
 import CLI.Core.Vendor;
 import CLI.Core.Customer;
 
@@ -91,6 +92,7 @@ public class Main {
 
                                 int vendorCount;
                                 int customerCount;
+                                int vipCustomerCount;
 
                                 // Validate vendor count input.
                                 while (true) {
@@ -123,6 +125,21 @@ public class Main {
                                         scanner.nextLine(); // Consume invalid input.
                                     }
                                 }
+                                // Validate VIP customer count input.
+                                while (true) {
+                                    System.out.print("Enter VIP Customer Count: ");
+                                    if (scanner.hasNextInt()) {
+                                        vipCustomerCount = scanner.nextInt();
+                                        if (vipCustomerCount >=0 ) {
+                                            break;
+                                        } else {
+                                            System.out.println("❌ VIP Customer count must be greater than 0.");
+                                        }
+                                    } else {
+                                        System.out.println("❌ Invalid input! Please enter a valid number.");
+                                        scanner.nextLine(); // Consume invalid input.
+                                    }
+                                }
                                 scanner.nextLine(); // Consume newline.
 
                                 System.out.println();
@@ -130,7 +147,7 @@ public class Main {
                                 System.out.println();
 
                                 // Create threads for vendors and customers.
-                                List<Thread> threads = getThreads(systemConfig, vendorCount, customerCount);
+                                List<Thread> threads = getThreads(systemConfig, vendorCount, customerCount, vipCustomerCount);
 
                                 // Wait for all threads to complete
                                 for (Thread thread : threads) {
@@ -175,7 +192,7 @@ public class Main {
     }
 
     // Creates and starts vendor and customer threads.
-    private static List<Thread> getThreads(SystemConfig systemConfig, int vendorCount, int customerCount) {
+    private static List<Thread> getThreads(SystemConfig systemConfig, int vendorCount, int customerCount, int vipCustomerCount) {
         TicketPool ticketPool = new TicketPool(systemConfig.getTotalTickets(), systemConfig.getMaxTicketCapacity());
 
 
@@ -189,13 +206,22 @@ public class Main {
             vendorThread.start();
         }
 
-        // Create and start customer .
+        // Create and start VIP customer threads.
+        for (int i = 0; i < vipCustomerCount; i++) {
+            VIPCustomer vipCustomer = new VIPCustomer(i + 1, ticketPool, systemConfig.getCustomerRetrievalRate()/2);
+            Thread vipCustomerThread = new Thread(vipCustomer);
+            threads.add(vipCustomerThread);
+            vipCustomerThread.start();
+        }
+
+        // Create and start customer threads.
         for (int i = 0; i < customerCount; i++) {
             Customer customer = new Customer(i + 1, ticketPool, systemConfig.getCustomerRetrievalRate());
             Thread customerThread = new Thread(customer);
             threads.add(customerThread);
             customerThread.start();
         }
+
         return threads;
     }
 }
