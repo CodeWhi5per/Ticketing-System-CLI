@@ -40,10 +40,10 @@ public class SystemConfig {
                 if (value > 0) {
                     return value;
                 } else {
-                    System.out.println("Input must be a positive number. Please try again.");
+                    System.out.println("❌ Input must be a positive number. Please try again.");
                 }
             } else {
-                System.out.println("Invalid input! Please enter a valid number.");
+                System.out.println("❌ Invalid input! Please enter a valid number.");
                 scanner.nextLine();
             }
         }

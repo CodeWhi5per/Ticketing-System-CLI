@@ -31,7 +31,7 @@ public class DatabaseUtil {
             preparedStatement.setInt(4, maxTicketCapacity);
 
             preparedStatement.executeUpdate();
-            System.out.println("Configuration saved to database successfully!");
+            System.out.println("✅ Configuration saved to database successfully!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class DatabaseUtil {
 
                 systemConfig.setConfigurations(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
                 System.out.println();
-                System.out.println("Configuration loaded from database successfully!");
+                System.out.println("✅ Configuration loaded from database successfully!");
             } else {
                 System.out.println("No configurations found in the database.");
             }
