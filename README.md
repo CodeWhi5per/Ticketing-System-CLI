@@ -11,7 +11,6 @@ This project is a **Real-Time Event Ticketing System** built in Java. It provide
 3. [Setup Instructions](#setup-instructions)
 4. [CLI Usage Guidelines](#cli-usage-guidelines)
 5. [Troubleshooting](#troubleshooting)
-6. [License](#license)
 
 ---
 
